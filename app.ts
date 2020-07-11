@@ -1,13 +1,24 @@
-const button = document.querySelector("button");
-const input1 = document.querySelector(".num1")! as HTMLInputElement;
-const input2 = document.querySelector(".num2")! as HTMLInputElement;
+type Combinable = string | number;
+type ConversionDescriptor = "as_number" | "as_text"
 
-let add: (num1: number, num2: number) => number;
-
-add = function(num1: number, num2: number) {
-    return num1 + num2;
+function add(
+  input1: string | number,
+  input2: Combinable,
+  resultConversion: ConversionDescriptor
+) {
+  let result;
+  if (typeof input1 === "number" && typeof input2 === "number") {
+    result = input1 + input2;
+  } else {
+    result = input1.toString() + input2.toString();
+  }
+  if ( resultConversion === "as_number") {
+    result = +result
+  } else {
+    result = result.toString()
+  }
+    return result;
 }
 
-button.addEventListener("click", () => {
-    console.log(add(+input1.value, +input2.value));
-});
+const combinedNames = add("2", 2, "as_number");
+console.log(typeof combinedNames)
